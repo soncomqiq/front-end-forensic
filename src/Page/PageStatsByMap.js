@@ -7,11 +7,13 @@ import {
   Markers,
   Marker,
 } from "react-simple-maps"
-import { geoAlbers } from "d3-geo"
-import { VictoryPie } from "victory"
-import { feature } from "topojson-client"
-import { cantons } from "../data"
-import { geo } from "../static/cantons.json"
+import { scaleLinear } from "d3-scale"
+import request from "axios"
+import Axios from "axios"
+import { Radio, Icon, Col, Row, Typography } from 'antd'
+import { API_BASE_URL, ACCESS_TOKEN } from '../constants';
+
+const { Text } = Typography;
 
 const wrapperStyles = {
   width: "100%",
@@ -19,119 +21,191 @@ const wrapperStyles = {
   margin: "0 auto",
 }
 
-class MapWithVictory extends Component {
+const cityScale = scaleLinear()
+  .domain([0, 100]) //[0,37843000]
+  .range([1, 25])
+
+class BasicMap extends Component {
   constructor() {
     super()
     this.state = {
-      cantons: [],
-      worldData: [],
+      alleles: [],
+      chromosome: 'Autosom',
+      locus: 'Amelogenin',
+      autosom_locus: [],
+      y_locus: [],
+      x_locus: [],
+      colorFlag: {},
     }
+    this.fetchAlleles = this.fetchAlleles.bind(this)
   }
 
   componentDidMount() {
-    this.setState({
-      cantons: cantons,
+    this.fetchAlleles(this.state.locus)
+    Axios.get(API_BASE_URL + "/getlocuslist").then(Response => {
+      this.setState({
+        autosom_locus: Response.data["autosomLocus"],
+        y_locus: Response.data["yLocus"],
+        x_locus: Response.data["xLocus"]
+      })
     })
   }
 
-  projection(width, height) {
-    return geoAlbers()
-      .rotate([0, 0])
-      .center([8.3, 46.8])
-      .scale(14000)
-      .translate([width / 2, height / 2])
+  fetchAlleles(locus) {
+    const auth = { 'headers': { 'Authorization': 'Bearer ' + localStorage.getItem(ACCESS_TOKEN) } }
+    request
+      .get(API_BASE_URL + "/statisticmap/" + locus, auth)
+      .then(res => {
+        this.setState({
+          alleles: res.data,
+        })
+        let dict = {}
+        res.data.map((allele) => {
+          dict[allele.allele] = this.rgb2hex(allele.color)
+        })
+        this.setState({
+          colorFlag: dict
+        })
+      })
+  }
+
+  renderLocusList(props) {
+    const radioStyle = {
+      display: 'block',
+      height: '30px',
+      lineHeight: '30px',
+    };
+    let component = null;
+    switch (this.state.chromosome) {
+      case 'Autosom':
+        component = this.state.autosom_locus.map(locus =>
+          <Row type="flex" justify="start" align="top">
+            <Radio style={radioStyle} value={locus}>{locus}</Radio>
+          </Row>
+        )
+        break;
+      case 'Y_STRs':
+        component = this.state.y_locus.map(locus =>
+          <Row type="flex" justify="start" align="top">
+            <Radio style={radioStyle} value={locus}>{locus}</Radio>
+          </Row>
+        )
+        break;
+      case 'X_STRs':
+        component = this.state.x_locus.map(locus =>
+          <Row type="flex" justify="start" align="top">
+            <Radio style={radioStyle} value={locus}>{locus}</Radio>
+          </Row>
+        )
+        break;
+      default:
+        component = null;
+    }
+    return (
+      <Radio.Group onChange={(e) => { this.setState({ locus: e.target.value }); this.fetchAlleles(e.target.value) }} value={this.state.locus}>
+        {component}
+      </Radio.Group>
+    );
+  }
+
+  rgb2hex(rgb) {
+    rgb = rgb.match(/^rgba?[\s+]?\([\s+]?(\d+)[\s+]?,[\s+]?(\d+)[\s+]?,[\s+]?(\d+)[\s+]?/i);
+    return (rgb && rgb.length === 4) ? "#" +
+      ("0" + parseInt(rgb[1], 10).toString(16)).slice(-2) +
+      ("0" + parseInt(rgb[2], 10).toString(16)).slice(-2) +
+      ("0" + parseInt(rgb[3], 10).toString(16)).slice(-2) : '';
   }
 
   render() {
+    const chromosome = this.state.chromosome;
+    const locusList = this.renderLocusList();
+    console.log(this.state)
     return (
       <div style={wrapperStyles}>
-        <ComposableMap
-          projection={this.projection}
-          width={980}
-          height={551}
-          style={{
-            width: "100%",
-            height: "auto",
-          }}
-        >
-          <ZoomableGroup center={[-8.3, -46.8]} disablePanning>
-            <Geographies geography="https://raw.githubusercontent.com/zcreativelabs/react-simple-maps/master/examples/with-victory/static/cantons.json">
-              {(geographies, projection) =>
-                geographies.map((geography, i) =>
-                  <Geography
-                    key={i}
-                    round
-                    geography={geography}
-                    projection={projection}
-                    style={{
-                      default: {
-                        fill: "#ECEFF1",
-                        stroke: "#607D8B",
-                        strokeWidth: 0.75,
-                        outline: "none",
-                      },
-                      hover: {
-                        fill: "#607D8B",
-                        stroke: "#607D8B",
-                        strokeWidth: 0.75,
-                        outline: "none",
-                      },
-                      pressed: {
-                        fill: "#FF5722",
-                        stroke: "#607D8B",
-                        strokeWidth: 0.75,
-                        outline: "none",
-                      },
-                    }}
-                  />
-                )}
-            </Geographies>
-            <Markers>
-              {this.state.cantons.map((canton, i) => (
-                <Marker
-                  key={`canton-${canton.id}`}
-                  marker={canton}
-                  style={{
-                    default: {
-                      outline: "none",
-                    },
-                    hover: {
-                      outline: "none",
-                    },
-                    pressed: {
-                      outline: "none",
-                    },
-                  }}
-                >
-                  <g transform="translate(-15,-15)">
-                    <circle cx={20} cy={20} r={21} fill="transparent" stroke="#607D8B" />
-                    <circle cx={20} cy={20} r={9} fill="transparent" stroke="#607D8B" />
-                    <VictoryPie
-                      standalone={false}
-                      width={40}
-                      height={40}
-                      padding={0}
-                      innerRadius={10}
-                      style={{
-                        labels: { fill: "transparent" },
-                        data: { stroke: "#ECEFF1" },
-                      }}
-                      data={[
-                        { x: null, y: canton.languages[0].value, fill: "#FF5722" },
-                        { x: null, y: canton.languages[1].value, fill: "#00BCD4" },
-                        { x: null, y: canton.languages[2].value, fill: "#FFC107" },
-                        { x: null, y: canton.languages[3].value, fill: "#8BC34A" },
-                      ]}
-                    />
-                  </g>
-                </Marker>
-              ))}
-            </Markers>
-          </ZoomableGroup>
-        </ComposableMap>
+        <Row>
+          <Col span={6} pull={0}>
+            <Radio.Group value={chromosome} onChange={(e) => this.setState({ chromosome: e.target.value })}>
+              <Radio.Button value="Autosom">Autosom</Radio.Button>
+              <Radio.Button value="Y_STRs">Y_STRs</Radio.Button>
+              <Radio.Button value="X_STRs">X_STRs</Radio.Button>
+            </Radio.Group>
+            <br /><br />
+            {locusList}
+          </Col>
+          <Col span={18} pull={-4}>
+            <ComposableMap
+              projectionConfig={{ scale: 3400 }}
+              width={800}
+              height={900}
+              style={{
+                width: "100%",
+                height: "auto",
+              }}
+            >
+              <ZoomableGroup center={[94, 12.8]} disablePanning>
+                <Geographies geography="/gadm36_THA_1.json">
+                  {(geographies, projection) =>
+                    geographies.map((geography, i) =>
+                      geography.id !== "ATA" && (
+                        <Geography
+                          key={i}
+                          geography={geography}
+                          projection={projection}
+                          style={{
+                            default: {
+                              fill: "#ECEFF1",
+                              stroke: "#607D8B",
+                              strokeWidth: 0.75,
+                              outline: "none",
+                            },
+                            hover: {
+                              fill: "#ECEFF1",
+                              stroke: "#607D8B",
+                              strokeWidth: 0.75,
+                              outline: "none",
+                            },
+                            pressed: {
+                              fill: "#ECEFF1",
+                              stroke: "#607D8B",
+                              strokeWidth: 0.75,
+                              outline: "none",
+                            },
+                          }}
+                        />
+                      ))}
+                </Geographies>
+                <Markers>
+                  {
+                    this.state.alleles.map((allele, i) => (
+                      <Marker key={i} marker={{ coordinates: [allele.x, allele.y] }}>
+                        <circle
+                          cx={0}
+                          cy={0}
+                          r={cityScale(allele.count)}
+                          fill={allele.color}
+                          stroke="#607D8B"
+                          strokeWidth="2"
+                        />
+                      </Marker>
+                    ))
+                  }
+                </Markers>
+              </ZoomableGroup>
+            </ComposableMap>
+          </Col>
+          <Col >
+            <div>
+              {
+                Object.keys(this.state.colorFlag).map((key, index) => (
+                  <Text><Icon type="cloud" theme="twoTone" twoToneColor={this.state.colorFlag[key]} />{key}{'   '}</Text>
+                ))
+              }
+            </div>
+          </Col>
+        </Row>
       </div>
     )
   }
 }
 
-export default MapWithVictory
+export default BasicMap

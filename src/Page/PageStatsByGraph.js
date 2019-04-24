@@ -84,10 +84,7 @@ export default class PageStatsByGraph extends React.Component {
 
   render() {
     const chromosome = this.state.chromosome;
-    const locus = this.state.locus;
     const locusList = this.renderLocusList();
-    console.log(this.state.alleleCount)
-    console.log(this.state.dataSummary)
     return (
       <Row>
         <Col span={6}>
@@ -99,7 +96,7 @@ export default class PageStatsByGraph extends React.Component {
           <br /><br />
           {locusList}
         </Col>
-        <Col span={6} push={3}>
+        <Col span={8} push={3}>
           <LocusStatisticInfo
             locus={this.state.locus}
             alleleCount={this.state.alleleCount}

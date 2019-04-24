@@ -7,7 +7,9 @@ const AlphaColor = {
   G: '#ED493B'
 }
 
-const colours = ['#5BF13E', '#388BEE', '#FFB23E', '#ED493B']
+const AlphaColorSwitch = {}
+
+const colours = ['#5BF13E', '#46c12e', '#388BEE', '#2d67ad', '#FFB23E', '#c4872b', '#ED493B', '#bf3c31']
 
 function maskedAllele(sequence, seqAlign) {
   if (seqAlign == "No Repeated Data") {
@@ -18,9 +20,6 @@ function maskedAllele(sequence, seqAlign) {
     let pattern = []
     AlphaColor["A"] = 'test';
     console.log(AlphaColor)
-    // console.log(/\d/.test("ssss4ss"))
-    // console.log("|" + seqAlign + "|")
-    // console.log(alleles)
     alleles.map(allele => {
       if (/\d/.test(allele)) {
         let tmp = allele.split(')');
@@ -42,13 +41,15 @@ function maskedAllele(sequence, seqAlign) {
       for (var j = 0; j < pattern[i].number; j++) {
         if (AlphaColor[pattern[i].pattern] == null) {
           AlphaColor[pattern[i].pattern] = colours[k++];
+          AlphaColorSwitch[pattern[i].pattern] = colours[k++];
         }
         final.push(pattern[i].pattern)
       }
     }
     console.log(final)
+    let pevLetter = "";
     return final.map((letter, i) => (
-      <span style={{ backgroundColor: (i % 2) ? "#5BF13E" : "#ED493B" }}>{letter}</span>
+      <span style={{ backgroundColor: ((i == 0) ? letter : final[i - 1] == letter && i % 2 == 0 ) ? AlphaColorSwitch[letter] : AlphaColor[letter] }}>{letter}</span>
     ))
   }
 }
