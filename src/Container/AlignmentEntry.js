@@ -49,7 +49,7 @@ function maskedAllele(sequence, seqAlign) {
     console.log(final)
     let pevLetter = "";
     return final.map((letter, i) => (
-      <span style={{ backgroundColor: ((i == 0) ? letter : final[i - 1] == letter && i % 2 == 0 ) ? AlphaColorSwitch[letter] : AlphaColor[letter] }}>{letter}</span>
+      <span style={{ backgroundColor: ((i == 0) ? letter : final[i - 1] == letter && i % 2 == 0) ? AlphaColorSwitch[letter] : AlphaColor[letter] }}>{letter}</span>
     ))
   }
 }
