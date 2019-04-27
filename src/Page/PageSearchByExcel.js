@@ -8,7 +8,7 @@ const Dragger = Upload.Dragger;
 const props = {
   name: 'file',
   multiple: true,
-  action: API_BASE_URL + '/api/search/excelfile',
+  action: API_BASE_URL + '/file/search/excelfile',
 };
 
 export default class PageSearchByExcel extends React.Component {
@@ -22,7 +22,7 @@ export default class PageSearchByExcel extends React.Component {
   }
 
   componentWillMount() {
-    Axios.get(API_BASE_URL + "/numberofperson").then((Response) => {
+    Axios.get(API_BASE_URL + "/resources/person/numberofperson").then((Response) => {
       this.setState({
         totalSample: Response.data
       })

@@ -21,11 +21,11 @@ export default class PageStatsByGraph extends React.Component {
   handleChartData = async (e) => {
     let chromosome = this.state.chromosome;
     let locus = e.target.value;
-    const Response = await Axios.get(API_BASE_URL + "/getstatsgraphinfo/" + chromosome + "/" + locus)
+    const Response = await Axios.get(API_BASE_URL + "/resources/getstatsgraphinfo/" + chromosome + "/" + locus)
     this.setState({
       alleleCount: Response.data
     })
-    const Response1 = await Axios.get(API_BASE_URL + "/api/resource/hetero")
+    const Response1 = await Axios.get(API_BASE_URL + "/resources/hetero")
     this.setState({
       dataSummary: Response1.data
     })
@@ -34,7 +34,7 @@ export default class PageStatsByGraph extends React.Component {
   componentWillMount() {
     let tmp = { target: { value: this.state.locus } }
     this.handleChartData(tmp);
-    Axios.get(API_BASE_URL + "/getlocuslist").then(Response => {
+    Axios.get(API_BASE_URL + "/resources/getlocuslist").then(Response => {
       this.setState({
         autosom_locus: Response.data["autosomLocus"],
         y_locus: Response.data["yLocus"],

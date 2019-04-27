@@ -25,23 +25,23 @@ class PageSearchByManual extends React.Component {
   };
 
   componentWillMount() {
-    Axios.get(API_BASE_URL + "/numberofperson").then((Response) => {
+    Axios.get(API_BASE_URL + "/resources/person/numberofperson").then((Response) => {
       console.log(Response.data)
       this.setState({
         totalSample: Response.data
       })
     })
-    Axios.get(API_BASE_URL + "/getallautosomalkit").then((Response) => {
+    Axios.get(API_BASE_URL + "/resources/getallautosomalkit").then((Response) => {
       this.setState({
         autosomKit: Response.data
       })
     })
-    Axios.get(API_BASE_URL + "/getallykit").then((Response) => {
+    Axios.get(API_BASE_URL + "/resources/getallykit").then((Response) => {
       this.setState({
         yKit: Response.data
       })
     })
-    Axios.get(API_BASE_URL + "/getallxkit").then((Response) => {
+    Axios.get(API_BASE_URL + "/resources/getallxkit").then((Response) => {
       this.setState({
         xKit: Response.data
       })
@@ -53,13 +53,13 @@ class PageSearchByManual extends React.Component {
     let currentChromosome = "";
     switch (this.state.chromosome) {
       case "Autosome":
-        currentChromosome = "/getlocusautosomalkit/";
+        currentChromosome = "/resources/getlocusautosomalkit/";
         break;
       case "Y_STRs":
-        currentChromosome = "/getlocusykit/";
+        currentChromosome = "/resources/getlocusykit/";
         break;
       case "X_STRs":
-        currentChromosome = "/getlocusxkit/";
+        currentChromosome = "/resources/getlocusxkit/";
         break;
       default:
         currentChromosome = "";
@@ -119,7 +119,7 @@ class PageSearchByManual extends React.Component {
         )
       }
       console.log('data:', data);
-      Axios.post(API_BASE_URL + '/findpersonbylocus', data).then((Response) => {
+      Axios.post(API_BASE_URL + '/resources/person/findpersonbylocus', data).then((Response) => {
         console.log(Response.data)
         this.setState({
           totalMatchSample: Response.data.length,

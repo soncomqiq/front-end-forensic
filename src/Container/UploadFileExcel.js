@@ -25,7 +25,7 @@ export default class UploadFileExcel extends Component {
     var formData = new FormData();
     formData.append('file', this.state.selectedFile, this.state.selectedFile.name);
 
-    await fetch(API_BASE_URL + "/uploadFile", {
+    await fetch(API_BASE_URL + "/file/uploadFile", {
       headers: { 'Authorization': 'Bearer ' + localStorage.getItem(ACCESS_TOKEN) },
       method: 'POST',
       body: formData

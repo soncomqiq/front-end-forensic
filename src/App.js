@@ -19,6 +19,7 @@ import LogoUpload from './images/LogoUpload.png'
 import PageAdminSequence from './Page/PageSequenceAlignment';
 import MapWithVictoryPage from './Page/PageStatsByMap';
 import StaticByMapPage from './Page/PageStatsByMap';
+import WrappedRegistrationForm from './Page/PageAddPersonInfo';
 
 const { Title, Text } = Typography;
 const { Header, Content, Footer } = Layout;
@@ -124,6 +125,7 @@ class App extends Component {
                 {isAuthenticated ? <Route exact path="/adddata" component={PageUploadFileExcel} /> : null}
                 {isAuthenticated ? <Route exact path="/isnpstat" component={PageiSNPStat} /> : null}
                 {isAuthenticated ? <Route exact path="/seqalign" component={PageAdminSequence} /> : null}
+                {isAuthenticated ? <Route exact path="/editperson" component={WrappedRegistrationForm} />: null}
               </div>
             </div>
           </Content>

@@ -20,7 +20,7 @@ class PageSearchByText extends React.Component {
     }
 
     componentWillMount() {
-        Axios.get(API_BASE_URL + "/numberofperson").then((Response) => {
+        Axios.get(API_BASE_URL + "/resources/person/numberofperson").then((Response) => {
             console.log(Response.data)
             this.setState({
                 totalSample: Response.data
@@ -53,7 +53,7 @@ class PageSearchByText extends React.Component {
                     console.log(data);
                 });
                 console.log('data:', data);
-                Axios.post(API_BASE_URL + '/findpersonbylocus', data).then((Response) => {
+                Axios.post(API_BASE_URL + '/resources/findpersonbylocus', data).then((Response) => {
                     console.log(Response.data)
                     this.setState({
                         totalMatchSample: Response.data.length,

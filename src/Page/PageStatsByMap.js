@@ -22,7 +22,7 @@ const wrapperStyles = {
 }
 
 const cityScale = scaleLinear()
-  .domain([0, 100]) //[0,37843000]
+  .domain([0, 6]) //[0,37843000]
   .range([1, 25])
 
 class BasicMap extends Component {
@@ -42,7 +42,7 @@ class BasicMap extends Component {
 
   componentDidMount() {
     this.fetchAlleles(this.state.locus)
-    Axios.get(API_BASE_URL + "/getlocuslist").then(Response => {
+    Axios.get(API_BASE_URL + "/resources/getlocuslist").then(Response => {
       this.setState({
         autosom_locus: Response.data["autosomLocus"],
         y_locus: Response.data["yLocus"],
@@ -54,7 +54,7 @@ class BasicMap extends Component {
   fetchAlleles(locus) {
     const auth = { 'headers': { 'Authorization': 'Bearer ' + localStorage.getItem(ACCESS_TOKEN) } }
     request
-      .get(API_BASE_URL + "/statisticmap/" + locus, auth)
+      .get(API_BASE_URL + "/resources/statisticmap/" + locus, auth)
       .then(res => {
         this.setState({
           alleles: res.data,
