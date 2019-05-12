@@ -9,6 +9,7 @@ import AdminNavbar from './NavBar/AdminBar';
 import Login from './user/login/Login'
 import SignUp from './user/signup/Signup'
 import 'bulma/css/bulma.css'
+import './css/Box.css'
 
 import { getCurrentUser } from './util/APIUtils';
 import { ACCESS_TOKEN } from './constants';
@@ -17,13 +18,17 @@ import PageiSNPStat from './Page/PageiSNPStats';
 import { Typography } from 'antd';
 import LogoUpload from './images/LogoUpload.png'
 import PageAdminSequence from './Page/PageSequenceAlignment';
-import MapWithVictoryPage from './Page/PageStatsByMap';
 import StaticByMapPage from './Page/PageStatsByMap';
-import WrappedRegistrationForm from './Page/PageAddPersonInfo';
+import WrappedEditForm from './Page/PageEditPersonInfo';
+import PageListPersons from './Page/PageListPersons';
+import Body from './Page/PageKinshipAnalysis';
+import LoadingIndicator from './common/LoadingIndicator'
+import PageUploadPersons from './Page/PageUploadPersons';
+import PageUploadCEData from './Page/PageUploadCEData';
+import PageViewSingleID from './Page/PageViewSingleID';
 
 const { Title, Text } = Typography;
 const { Header, Content, Footer } = Layout;
-const PageStatsMap = () => <h1>Static By Map</h1>
 const Home = props => (
   <div>
     <Title level={2}>Welcome to FGxBIO</Title>
@@ -102,6 +107,9 @@ class App extends Component {
   }
 
   render() {
+    if (this.state.isLoading) {
+      return <LoadingIndicator />;
+    }
     console.log("auth " + this.state.isAuthenticated)
     const isAuthenticated = this.state.isAuthenticated;
     // this.loadCurrentUser();
@@ -122,10 +130,14 @@ class App extends Component {
                 <Route exact path="/stats/graph" component={PageStatsByGraph} />
                 <Route exact path="/stats/map" component={StaticByMapPage} />
                 <Route exact path="/signup" component={SignUp} />
+                <Route exact path="/analysis/kinship" component={Body}/>
                 {isAuthenticated ? <Route exact path="/adddata" component={PageUploadFileExcel} /> : null}
                 {isAuthenticated ? <Route exact path="/isnpstat" component={PageiSNPStat} /> : null}
                 {isAuthenticated ? <Route exact path="/seqalign" component={PageAdminSequence} /> : null}
-                {isAuthenticated ? <Route exact path="/editperson" component={WrappedRegistrationForm} />: null}
+                {isAuthenticated ? <Route exact path="/listpersons" component={PageListPersons} />: null}
+                {isAuthenticated ? <Route exact path="/uploadpersons" component={PageUploadPersons} />: null}
+                {isAuthenticated ? <Route exact path="/uploadcedata" component={PageUploadCEData} />: null}
+                {isAuthenticated ? <Route exact path="/user/view/:yid/:id" component={PageViewSingleID} />: null}
               </div>
             </div>
           </Content>

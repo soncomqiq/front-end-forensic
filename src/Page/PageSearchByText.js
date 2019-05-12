@@ -110,6 +110,7 @@ class PageSearchByText extends React.Component {
                 <Col>
                     <div className="column">
                         <p><strong>The pattern example can be found here</strong></p>
+                        <hr></hr>
                         <p>[Locus]:[Allele],[Allele]<br />[Locus]:[Allele]</p>
                     </div>
                 </Col>

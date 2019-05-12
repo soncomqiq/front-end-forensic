@@ -22,14 +22,14 @@ class PageAdminSequence extends Component {
 
   componentDidMount() {
     const auth = { 'headers': { 'Authorization': 'Bearer ' + localStorage.getItem(ACCESS_TOKEN) } }
-    axios.get(`${API_BASE_URL}/api/resource/locuslist`, auth).then(
+    axios.get(`${API_BASE_URL}/resources/locuslist`, auth).then(
       function (response) {
         // console.log(response.data)
         this.setState({ locuslist: response.data })
       }.bind(this)
     )
 
-    axios.get(`${API_BASE_URL}/api/resource/alleleinfo`, auth).then(
+    axios.get(`${API_BASE_URL}/resources/alleleinfo`, auth).then(
       function (response) {
         // console.log(response.data)
         this.setState({ alleleInfo: response.data })
@@ -43,7 +43,7 @@ class PageAdminSequence extends Component {
       locus: this.state.selectedLocus,
       allele: this.state.selectedAllele,
     }
-    axios.post(`${API_BASE_URL}/alignment`, data, auth).then(
+    axios.post(`${API_BASE_URL}/resources/alignment`, data, auth).then(
       function (response) {
         this.setState({
           result: response.data

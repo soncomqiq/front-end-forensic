@@ -15,11 +15,11 @@ export default class AdminNavbar extends Component {
 
     handleMenuClick = ({ key }) => {
         console.log(key)
-        if(key === "logout") {
-          this.props.onLogout();
+        if (key === "logout") {
+            this.props.onLogout();
         }
-      }
-  
+    }
+
 
     render() {
         return (
@@ -41,12 +41,20 @@ export default class AdminNavbar extends Component {
                         <Menu.Item key="map"><a href="/stats/map" ><Icon type="google" />Map</a></Menu.Item>
                     </MenuItemGroup>
                 </SubMenu>
+                <SubMenu title={<span><Icon type="line-chart" />Analysis</span>}>
+                    <MenuItemGroup title="Analysis">
+                        <Menu.Item key="graph"><a href="/analysis/kinship" ><Icon type="team" />Kinchip Analysis</a></Menu.Item>
+                    </MenuItemGroup>
+                </SubMenu>
                 <SubMenu style={{ float: 'right' }} title={<span><Icon type="setting" />Lab User Menu</span>}>
                     <MenuItemGroup title="Function">
                         <Menu.Item key="add"><a href="/adddata" ><Icon type="file-add" />Add data</a></Menu.Item>
+                        <Menu.Item key="addperson"><a href="/uploadpersons" ><Icon type="usergroup-add" />Add Persons</a></Menu.Item>
+                        <Menu.Item key="cedata"><a href="/uploadcedata" ><Icon type="file-text" />Add CE Data</a></Menu.Item>
+                        <Menu.Item key="isnp"><a href="/listpersons" ><Icon type="team" />Person List</a></Menu.Item>
                         <Menu.Item key="isnp"><a href="/isnpstat" ><Icon type="box-plot" />iSNPs</a></Menu.Item>
-                        <Menu.Item key="alignment"><a href="/seqalign" ><Icon type="box-plot" />Seq Alignment</a></Menu.Item>
-                        <Menu.Item key="logout"><Icon type="logout" />Logout</Menu.Item>
+                        <Menu.Item key="alignment"><a href="/seqalign" ><Icon type="barcode" />Seq Alignment</a></Menu.Item>
+                       <Menu.Item key="logout"><Icon type="logout" />Logout</Menu.Item>
                     </MenuItemGroup>
                 </SubMenu>
             </Menu>

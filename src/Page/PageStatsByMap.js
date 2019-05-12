@@ -142,7 +142,7 @@ class BasicMap extends Component {
                 height: "auto",
               }}
             >
-              <ZoomableGroup center={[94, 12.8]} disablePanning>
+              <ZoomableGroup center={[100, 12.8]}>
                 <Geographies geography="/gadm36_THA_1.json">
                   {(geographies, projection) =>
                     geographies.map((geography, i) =>

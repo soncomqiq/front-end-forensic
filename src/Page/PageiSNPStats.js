@@ -14,7 +14,7 @@ export default class PageiSNPStat extends Component {
 
     componentDidMount() {
         const auth = { 'headers': { 'Authorization': 'Bearer ' + localStorage.getItem(ACCESS_TOKEN) } }
-        axios.get(API_BASE_URL + "/isnpstat", auth).then(
+        axios.get(API_BASE_URL + "/resources/isnpstat", auth).then(
             function (response) {
                 console.log(response.data)
                 var Locus = ''
