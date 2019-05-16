@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Input, Select, Button } from 'antd'
+import { Input, Select, Button, Row, Col } from 'antd'
 import { API_BASE_URL, ACCESS_TOKEN } from '../constants'
 import axios from 'axios'
 import AlignmentEntry from '../Container/AlignmentEntry'
@@ -103,35 +103,21 @@ class PageAdminSequence extends Component {
           </p>
           <br />
           <div>
-            <div className="columns">
-              <div className="column is-1">
-                <strong>Sample_Year</strong>
-              </div>
-              <div className="column is-1">
-                <strong>Sample_ID</strong>
-              </div>
-              <div className="column">
-                <strong>Repeated Sequence</strong>
-              </div>
-              <div className="column is-1">
-                <strong>Read Count</strong>
-              </div>
-              <div className="column is-2">
-                <strong>Pattern</strong>
-              </div>
-            </div>
+            <Row>
+              <Col span={2}><strong>Sample_Year</strong></Col>
+              <Col span={2}><strong>Sample_ID</strong></Col>
+              <Col span={14}><strong>Repeated Sequence</strong></Col>
+              <Col span={2}><strong>Read Count</strong></Col>
+              <Col span={4}><strong>Pattern</strong></Col>
+            </Row>
             <br />
-            <div className="columns">
-              <div className="column">
-                {this.state.result.map(entry => (
-                  <div
-                    key={entry.Sample_Year + entry.Sample_ID + entry.Read_Count}
-                  >
-                    <AlignmentEntry data={entry} />
-                  </div>
-                ))}
+
+            {this.state.result.map(entry => (
+              <div>
+                <AlignmentEntry data={entry} />
+                <br />
               </div>
-            </div>
+            ))}
             <br />
           </div>
         </div>

@@ -14,7 +14,7 @@ class PageUploadCEData extends React.Component {
     render() {
         const props1 = {
             name: 'file',
-            action: API_BASE_URL + '/file/uploadFile',
+            action: API_BASE_URL + '/file/uploadFileTxt',
             headers: {
                 authorization: 'Bearer ' + localStorage.getItem(ACCESS_TOKEN),
             },
@@ -24,12 +24,17 @@ class PageUploadCEData extends React.Component {
                 }
                 if (info.file.status === 'done') {
                     const auth = { 'headers': { 'Authorization': 'Bearer ' + localStorage.getItem(ACCESS_TOKEN) } }
-                    Axios.get(API_BASE_URL + '/resources/person/ULmanualPerson?type=xlsx', auth)
+                    Axios.get(API_BASE_URL + '/resources/strlocusinfo/uploadtextfile', auth)
                         .then((res) => {
-                            message.success(`${info.file.name} file uploaded successfully`);
+                            if(res.data == "Please Enter PersonID first."){
+                                message.error(`${info.file.name} file upload failed. ${res.data}`);
+                            }else {
+                                message.success(`${info.file.name} file uploaded successfully`);
+                            }
+
                         })
                         .catch((err) => {
-                            message.error(`${info.file.name} file upload failed.`);
+                            message.error(`${info.file.name} file upload failed. because ${err}`);
                         })
                     
                 } else if (info.file.status === 'error') {

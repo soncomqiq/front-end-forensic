@@ -1,24 +1,21 @@
 import React from 'react'
+import { Col, Row } from 'antd';
 
-const AlphaColor = {
-  A: '#5BF13E',
-  T: '#388BEE',
-  C: '#FFB23E',
-  G: '#ED493B'
-}
 
-const AlphaColorSwitch = {}
-
-const colours = ['#5BF13E', '#46c12e', '#FFB23E', '#c4872b','#388BEE', '#2d67ad', '#ED493B', '#bf3c31']
 
 function maskedAllele(sequence, seqAlign) {
+  let AlphaColor = {
+  }
+  let AlphaColorSwitch = {}
+  const colours = ['#5BF13E', '#4cd631', '#FFB23E', '#e0a041', '#388BEE', '#4c8ddb', '#ED493B', '#d6554a', '#8d28cc', '#bb5ff4']
   if (seqAlign == "No Repeated Data") {
     //Do nothing
     return (<span style={{ backgroundColor: "green" }}>{sequence}</span>);
   } else {
     let alleles = seqAlign.split(' ');
     let pattern = []
-    
+    AlphaColor = {}
+    AlphaColorSwitch = {}
     console.log(AlphaColor)
     console.log(AlphaColorSwitch)
     alleles.map(allele => {
@@ -35,7 +32,7 @@ function maskedAllele(sequence, seqAlign) {
         pattern.push(tmp2)
       }
     })
-    // console.log(pattern)
+    console.log(pattern)
     let k = 0;
     let final = []
     for (var i = 0; i < pattern.length; i++) {
@@ -47,7 +44,9 @@ function maskedAllele(sequence, seqAlign) {
         final.push(pattern[i].pattern)
       }
     }
-
+    if (final.length == 0) {
+      return <span style={{ backgroundColor: "#5BF13E" }}>{sequence}</span>
+    }
     return final.map((letter, i) => (
       <span style={{ backgroundColor: (i % 2 === 0) ? AlphaColorSwitch[letter] : AlphaColor[letter] }}>{letter}</span>
     ))
@@ -55,15 +54,11 @@ function maskedAllele(sequence, seqAlign) {
 }
 
 export default props => (
-  <div>
-    <div className="columns">
-      <div className="column is-1">{props.data.sampleYear}</div>
-      <div className="column is-1">{props.data.sampleId}</div>
-      <div className="column">
-        {maskedAllele(props.data.sequence, props.data.seqAlignment)}
-      </div>
-      <div className="column is-1">{props.data.readCount}</div>
-      <div className="column is-2">{props.data.seqAlignment}</div>
-    </div>
-  </div>
+  <Row>
+    <Col span={2}>{props.data.sampleYear}</Col>
+    <Col span={2}>{props.data.sampleId}</Col>
+    <Col span={14}><div style={{ wordWrap: "break-word", textAlign: "left" }}>{maskedAllele(props.data.sequence, props.data.seqAlignment)}</div></Col>
+    <Col span={2}>{props.data.readCount}</Col>
+    <Col span={4}>{props.data.seqAlignment}</Col>
+  </Row>
 )

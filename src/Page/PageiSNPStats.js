@@ -199,36 +199,36 @@ export default class PageiSNPStat extends Component {
                                     <strong>{entry.Locus}</strong>
                                 </div>
                                 <div className="column">
-                                    <div className="columns">
+                                    <div className="columns" style={{padding:"5px"}}>
                                         <div
                                             align="center"
                                             style={{ borderStyle: "solid", borderWidth: (a !== 0) ? "0px" : "0px", backgroundColor: '#bae637', width: (a < 7 && a > 0) ? "7%" : a + '%', height: 40 }}
                                         >
-                                            {a !== 0 && <strong>{a.toFixed(2)}%</strong>}
+                                            {a !== 0 && <p style={{margin:"auto",padding:"10px"}}><strong>{a.toFixed(2)}%</strong></p>}
                                         </div>
                                         <div
                                             align="center"
                                             style={{ borderStyle: "solid", borderWidth: (t !== 0) ? "0px" : "0px", backgroundColor: '#69c0ff', width: (t < 7 && t > 0) ? "7%" : t + '%', height: 40 }}
                                         >
-                                            {t !== 0 && <strong>{t.toFixed(2)}%</strong>}
+                                            {t !== 0 && <p style={{margin:"auto",padding:"10px"}}><strong>{t.toFixed(2)}%</strong></p>}
                                         </div>
                                         <div
                                             align="center"
                                             style={{ borderStyle: "solid", borderWidth: (c !== 0) ? "0px" : "0px", backgroundColor: '#ffd666', width: (c < 7 && c > 0) ? "7%" : c + '%', height: 40 }}
                                         >
-                                            {c !== 0 && <strong>{c.toFixed(2)}%</strong>}
+                                            {c !== 0 && <p style={{margin:"auto",padding:"10px"}}><strong>{c.toFixed(2)}%</strong></p>}
                                         </div>
                                         <div
                                             align="center"
                                             style={{ borderStyle: "solid", borderWidth: (g !== 0) ? "0px" : "0px", backgroundColor: '#ff7a45', width: (g < 7 && g > 0) ? "7%" : g + '%', height: 40 }}
                                         >
-                                            {g !== 0 && <strong>{g.toFixed(2)}%</strong>}
+                                            {g !== 0 && <p style={{margin:"auto",padding:"10px"}}><strong>{g.toFixed(2)}%</strong></p>}
                                         </div>
                                         <div
                                             align="center"
                                             style={{ borderStyle: "solid", borderWidth: (i !== 0) ? "0px" : "0px", backgroundColor: '#ffadd2', width: (i < 7 && i > 0) ? "7%" : i + '%', height: 40 }}
                                         >
-                                            {i !== 0 && <strong>{i.toFixed(2)}%</strong>}
+                                            {i !== 0 && <p style={{margin:"auto",padding:"10px"}}><strong>{i.toFixed(2)}%</strong></p>}
                                         </div>
                                     </div>
                                 </div>

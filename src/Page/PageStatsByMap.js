@@ -132,10 +132,10 @@ class BasicMap extends Component {
             <br /><br />
             {locusList}
           </Col>
-          <Col span={18} pull={-4}>
+          <Col span={14} pull={-4}>
             <ComposableMap
               projectionConfig={{ scale: 3400 }}
-              width={800}
+              width={700}
               height={900}
               style={{
                 width: "100%",
@@ -195,9 +195,12 @@ class BasicMap extends Component {
           </Col>
           <Col >
             <div>
+              <br />
+              <br />
+              <br />
               {
                 Object.keys(this.state.colorFlag).map((key, index) => (
-                  <Text><Icon type="cloud" theme="twoTone" twoToneColor={this.state.colorFlag[key]} />{key}{'   '}</Text>
+                  <div style={{textAlign:"left"}}><Text><Icon type="cloud" theme="twoTone" twoToneColor={this.state.colorFlag[key]} />&nbsp;&nbsp;{key}</Text></div>
                 ))
               }
             </div>

@@ -31,7 +31,7 @@ export default class UploadFileExcel extends Component {
     }).then((res) => { this.setState({ loaded: '1/7', message: 'Bring data to Person table' }) })
     const auth = { 'headers': { 'Authorization': 'Bearer ' + localStorage.getItem(ACCESS_TOKEN) } }
     await axios.get(API_BASE_URL + "/resources/person/uploadpersonfile", auth).then((res) => this.setState({ loaded: '2/7', message: 'Bring data to CE_Data table' }))
-    await axios.get(API_BASE_URL + "/resources/cedata/uploadcedatafile", auth).then((res) => this.setState({ loaded: '3/7', message: 'Bring data to Forenseq table' }))
+    await axios.get(API_BASE_URL + "/resources/strlocusinfo/uploadcedatafile", auth).then((res) => this.setState({ loaded: '3/7', message: 'Bring data to Forenseq table' }))
     await axios.get(API_BASE_URL + "/resources/forenseq/uploadforenseqfile", auth).then((res) => this.setState({ loaded: '4/7', message: 'Bring data to ForenseqX table' }))
     await axios.get(API_BASE_URL + "/resources/forenseqx/uploadforenseqxfile", auth).then((res) => this.setState({ loaded: '5/7', message: 'Bring data to ForenseqY table' }))
     await axios.get(API_BASE_URL + "/resources/forenseqy/uploadforenseqyfile", auth).then((res) => this.setState({ loaded: '6/7', message: 'Bring data to iSNPs table' }))

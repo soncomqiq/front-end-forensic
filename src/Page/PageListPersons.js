@@ -127,7 +127,7 @@ class PageListPersons extends React.Component {
         });
     }
 
-    getColumnSearchProps = (dataIndex) => ({
+    getColumnSearchProps = (dataIndex, add) => ({
         filterDropdown: ({
             setSelectedKeys, selectedKeys, confirm, clearFilters,
         }) => (
@@ -159,7 +159,8 @@ class PageListPersons extends React.Component {
                 </div>
             ),
         filterIcon: filtered => <Icon type="search" style={{ color: filtered ? '#1890ff' : undefined }} />,
-        onFilter: (value, record) => record[dataIndex].toString().toLowerCase().includes(value.toLowerCase()),
+        onFilter: (value, record) => (add) ? record[dataIndex][add].toString().toLowerCase().includes(value.toLowerCase()) :
+            record[dataIndex].toString().toLowerCase().includes(value.toLowerCase()),
         onFilterDropdownVisibleChange: (visible) => {
             if (visible) {
                 setTimeout(() => this.searchInput.select());
@@ -195,7 +196,7 @@ class PageListPersons extends React.Component {
             dataIndex: 'id.sampleId',
             key: 'id.sampleId',
             align: 'center',
-            ...this.getColumnSearchProps('id.sampleId'),
+            ...this.getColumnSearchProps('id', 'sampleId'),
             sorter: (a, b) => a.id.sampleId > b.id.sampleId,
             sortDirections: ['descend', 'ascend'],
         }, {
@@ -204,7 +205,7 @@ class PageListPersons extends React.Component {
             key: 'id.sampleYear',
             align: 'center',
             sorter: (a, b) => a.id.sampleYear > b.id.sampleYear,
-            ...this.getColumnSearchProps('id.sampleYear'),
+            ...this.getColumnSearchProps('id','sampleYear'),
         }, {
             title: 'Age',
             dataIndex: 'age',
