@@ -19,7 +19,6 @@ import { Typography } from 'antd';
 import LogoUpload from './images/LogoUpload.png'
 import PageAdminSequence from './Page/PageSequenceAlignment';
 import StaticByMapPage from './Page/PageStatsByMap';
-import WrappedEditForm from './Page/PageEditPersonInfo';
 import PageListPersons from './Page/PageListPersons';
 import Body from './Page/PageKinshipAnalysis';
 import LoadingIndicator from './common/LoadingIndicator'
@@ -32,11 +31,11 @@ const { Header, Content, Footer } = Layout;
 const Home = props => (
   <div>
     <Title level={2}>Welcome to FGxBIO</Title>
-    <br/>
+    <br />
     <img src={LogoUpload} />
-    <br/>
-    <br/>
-    <Title level={2}><Text code>The Database for Short Tandem Repeat (STR) Sequence</Text></Title>
+    <br />
+    <br />
+    <Title level={2}><Text>The Database for Short Tandem Repeat (STR) Sequence</Text></Title>
   </div>
 )
 
@@ -46,7 +45,8 @@ class App extends Component {
     this.state = {
       currentUser: null,
       isAuthenticated: false,
-      isLoading: false
+      isLoading: false,
+      current: 'home'
     }
     this.handleLogout = this.handleLogout.bind(this);
     this.loadCurrentUser = this.loadCurrentUser.bind(this);
@@ -115,14 +115,14 @@ class App extends Component {
     // this.loadCurrentUser();
     return (
       <Layout className="layout">
-        <div className="my-app" style={{ backgroundColor: '#e0ebeb' }}>
+        <div className="my-app">
           {
             this.state.isAuthenticated ?
               <AdminNavbar onLogout={this.handleLogout} /> :
               <GuestNavbar handleLogin={this.handleLogin} />
           }
           <Content style={{ padding: '0 0px' }}>
-            <div style={{ background: '#e0ebeb', padding: 24, minHeight: 522 }}>
+            <div style={{ background: '#e2e2e2', padding: 24, minHeight: 522 }}>
               <div className="App container">
                 <Route exact path="/" component={Home} />
                 <Route exact path="/Login" render={(props) => <Login onLogin={this.handleLogin} {...props} />} />
@@ -130,18 +130,18 @@ class App extends Component {
                 <Route exact path="/stats/graph" component={PageStatsByGraph} />
                 <Route exact path="/stats/map" component={StaticByMapPage} />
                 <Route exact path="/signup" component={SignUp} />
-                <Route exact path="/analysis/kinship" component={Body}/>
+                <Route exact path="/analysis/kinship" component={Body} />
                 {isAuthenticated ? <Route exact path="/adddata" component={PageUploadFileExcel} /> : null}
                 {isAuthenticated ? <Route exact path="/isnpstat" component={PageiSNPStat} /> : null}
                 {isAuthenticated ? <Route exact path="/seqalign" component={PageAdminSequence} /> : null}
-                {isAuthenticated ? <Route exact path="/listpersons" component={PageListPersons} />: null}
-                {isAuthenticated ? <Route exact path="/uploadpersons" component={PageUploadPersons} />: null}
-                {isAuthenticated ? <Route exact path="/uploadcedata" component={PageUploadCEData} />: null}
-                {isAuthenticated ? <Route exact path="/user/view/:yid/:id" component={PageViewSingleID} />: null}
+                {isAuthenticated ? <Route exact path="/listpersons" component={PageListPersons} /> : null}
+                {isAuthenticated ? <Route exact path="/uploadpersons" component={PageUploadPersons} /> : null}
+                {isAuthenticated ? <Route exact path="/uploadcedata" component={PageUploadCEData} /> : null}
+                {isAuthenticated ? <Route exact path="/user/view/:yid/:id" component={PageViewSingleID} /> : null}
               </div>
             </div>
           </Content>
-          <Footer style={{ textAlign: 'center' }}>Created By Wasin & Nuttachai</Footer>
+          <Footer style={{ textAlign: 'center', backgroundColor: '#FFFFFF' }}><Text style={{ color: 'black' }}>&copy; 2019 Chulalongkorn University All Rights Reserved</Text></Footer>
         </div>
       </Layout>
     )

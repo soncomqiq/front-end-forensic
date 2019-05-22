@@ -173,7 +173,6 @@ class PageSearchByManual extends React.Component {
     const currentKit = this.state.currentKit;
     const renderKitList = this.renderKitList();
     const getFields = this.getFields();
-    // console.log("Hello");
     return (
       <div>
         <Row>
@@ -204,7 +203,7 @@ class PageSearchByManual extends React.Component {
           </Row>
         </Form>
         <br /><br />
-        <div style={{ backgroundColor: "lightblue" }}>
+        <div>
           <Statistic title="Matched Sample" value={this.state.totalMatchSample} suffix={"/ " + this.state.totalSample} />
         </div>
         {isAuthenticated && isClicked ? <div>

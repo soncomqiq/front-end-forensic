@@ -31,7 +31,7 @@ class Body extends React.Component {
     render() {
         const ButtonComponent = (
             <div>
-                <input type="Button" className="Box-Btn" value={">> Click here for example file <<"} onClick={this.info} />
+                <a onClick={this.info}>Click here for example file</a>
             </div>
         );
         const visible = this.state.visible;

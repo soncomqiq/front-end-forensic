@@ -9,7 +9,7 @@ export default class AdminNavbar extends Component {
         super(props)
 
         this.state = {
-            isLoginActive: false
+            isLoginActive: false,
         }
     }
 
@@ -20,34 +20,35 @@ export default class AdminNavbar extends Component {
         }
     }
 
-
     render() {
+        const colorTheme = '';
         return (
             <Menu
                 onClick={this.handleMenuClick}
-                selectedKeys={[this.state.current]}
+                selectedKeys={[this.props.current]}
                 mode="horizontal"
-                style={{ lineHeight: '64px' }}
+                theme="light"
+                style={{ lineHeight: '64px', backgroundColor:colorTheme}}
             >
                 <Menu.Item key="home">
                     <a href="/" ><Icon type="home" />Home</a>
                 </Menu.Item>
-                <Menu.Item>
+                <Menu.Item key="search">
                     <a href="/search" ><Icon type="search" />Search</a>
                 </Menu.Item>
                 <SubMenu title={<span><Icon type="radar-chart" />Statistics</span>}>
-                    <MenuItemGroup title="Group By Locus">
+                    <MenuItemGroup title="Group By Locus" style={{backgroundColor:colorTheme}}>
                         <Menu.Item key="graph"><a href="/stats/graph" ><Icon type="bar-chart" />Graph</a></Menu.Item>
                         <Menu.Item key="map"><a href="/stats/map" ><Icon type="google" />Map</a></Menu.Item>
                     </MenuItemGroup>
                 </SubMenu>
                 <SubMenu title={<span><Icon type="line-chart" />Analysis</span>}>
-                    <MenuItemGroup title="Analysis">
+                    <MenuItemGroup title="Analysis" style={{backgroundColor:colorTheme}}>
                         <Menu.Item key="graph"><a href="/analysis/kinship" ><Icon type="team" />Kinchip Analysis</a></Menu.Item>
                     </MenuItemGroup>
                 </SubMenu>
                 <SubMenu style={{ float: 'right' }} title={<span><Icon type="setting" />Lab User Menu</span>}>
-                    <MenuItemGroup title="Function">
+                    <MenuItemGroup title="Function" style={{backgroundColor:colorTheme}}>
                         <Menu.Item key="add"><a href="/adddata" ><Icon type="file-add" />Add data</a></Menu.Item>
                         <Menu.Item key="addperson"><a href="/uploadpersons" ><Icon type="usergroup-add" />Add Persons</a></Menu.Item>
                         <Menu.Item key="cedata"><a href="/uploadcedata" ><Icon type="file-text" />Add CE Data</a></Menu.Item>

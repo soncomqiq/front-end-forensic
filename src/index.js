@@ -7,6 +7,8 @@ import 'antd/dist/antd.css';
 import './App.css';
 import { BrowserRouter } from 'react-router-dom';
 
+document.title = "FGxBIO Version 2";
+
 ReactDOM.render(
     <BrowserRouter>
         <App />
