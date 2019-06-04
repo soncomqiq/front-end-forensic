@@ -41,6 +41,10 @@ class BasicMap extends Component {
     this.fetchAlleles = this.fetchAlleles.bind(this)
   }
 
+  componentWillMount(){
+    localStorage.setItem('currentMenu', 'map')
+  }
+
   componentDidMount() {
     this.fetchAlleles(this.state.locus)
     Axios.get(API_BASE_URL + "/resources/getlocuslist").then(Response => {
@@ -61,7 +65,7 @@ class BasicMap extends Component {
           alleles: res.data,
         })
         let dict = {}
-        res.data.map((allele) => {
+        res.data.forEach((allele) => {
           dict[allele.allele] = this.rgb2hex(allele.color)
         })
         this.setState({
@@ -165,13 +169,13 @@ class BasicMap extends Component {
                             outline: "none",
                           },
                           hover: {
-                            fill: "#ECEFF1",
+                            fill: "#FFFFFF",
                             stroke: "#607D8B",
                             strokeWidth: 0.75,
                             outline: "none",
                           },
                           pressed: {
-                            fill: "#ECEFF1",
+                            fill: "#000000",
                             stroke: "#607D8B",
                             strokeWidth: 0.75,
                             outline: "none",
@@ -200,8 +204,11 @@ class BasicMap extends Component {
             </ComposableMap>
           </Col>
           <Col >
-            <div>
+            <div style={{ textAlign: "left" }}>
               <br />
+              <br />
+              <br />
+              <Text strong>Allele Frequency</Text>
               <br />
               <br />
               {

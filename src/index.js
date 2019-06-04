@@ -9,6 +9,8 @@ import { BrowserRouter } from 'react-router-dom';
 
 document.title = "FGxBIO Version 2";
 
+document.getElementById('root').style.height = '100%';
+
 ReactDOM.render(
     <BrowserRouter>
         <App />

@@ -3,7 +3,7 @@ import {
   Form, Row, Col, Input, Button, Icon, Radio, Statistic
 } from 'antd';
 import Axios from 'axios';
-import { API_BASE_URL } from '../constants';
+import { API_BASE_URL, ACCESS_TOKEN } from '../constants';
 import { Typography } from 'antd';
 
 const { Text } = Typography;
@@ -75,19 +75,20 @@ class PageSearchByManual extends React.Component {
 
   // To generate mock Form.Item
   getFields() {
+    console.log(this.props.example)
     const { getFieldDecorator } = this.props.form;
     const children = [];
     const locusList = this.state.currentLocusList;
-    const count = this.state.expand ? 100 : 6;
     for (let i = 0; i < locusList.length; i++) {
       children.push(
-        <Col span={2} key={locusList[i]}>
+        <Col span={2} key={locusList[i]} style={{ display: 'block' }}>
           <Form.Item label={`${locusList[i]}`}>
             {getFieldDecorator(`${locusList[i]}`, {
               rules: [{
                 required: false,
                 message: 'Input something!',
               }],
+              initialValue: this.props.example[locusList[i]]
             })(
               <Input placeholder={"M,N"} />
             )}
@@ -106,36 +107,43 @@ class PageSearchByManual extends React.Component {
     this.props.form.validateFields((err, values) => {
       console.log('Received values of form: ', values);
       let data = [];
-      console.log(Object.values(values))
+      console.log(Object.keys(values))
       var locus = Object.keys(values)
-      var text = Object.values(values)
       for (var i = 0; i < locus.length; i++) {
-        var multi = text[i].split(',')
-        multi.map(allele =>
-          data.push({
-            locus: `${locus[i]}`,
-            allele: `${allele}`
-          })
-        )
+        console.log(values[locus[i]])
+        if (typeof values[locus[i]] !== "undefined") {
+          var multi = values[locus[i]].split(',')
+          multi.map(allele =>
+            data.push({
+              locus: `${locus[i]}`,
+              allele: `${allele}`
+            })
+          )
+        }
       }
-      console.log('data:', data);
-      Axios.post(API_BASE_URL + '/resources/person/findpersonbylocus', data).then((Response) => {
-        console.log(Response.data)
-        this.setState({
-          totalMatchSample: Response.data.length,
-          listMatchSample: Response.data
-        })
-      });
+      if(this.props.isAuthenticated){
+        const auth = { 'headers': { 'Authorization': 'Bearer ' + localStorage.getItem(ACCESS_TOKEN) } }
+        Axios.post(API_BASE_URL + '/resources/findpersonbylocus', data, auth).then((Response) => {
+          console.log(Response.data)
+          this.setState({
+            totalMatchSample: Response.data.length,
+            listMatchSample: Response.data
+          })
+        });
+      } else {
+        Axios.post(API_BASE_URL + '/resources/findNumberOfPersonByLocus', data).then((Response) => {
+          console.log(Response.data)
+          this.setState({
+            totalMatchSample: Response.data,
+          })
+        });
+      }
     });
   }
 
   handleReset = () => {
     this.props.form.resetFields();
-  }
-
-  toggle = () => {
-    const { expand } = this.state;
-    this.setState({ expand: !expand });
+    this.props.setExampleEmpty();
   }
 
   renderKitList = () => {
@@ -167,6 +175,7 @@ class PageSearchByManual extends React.Component {
   }
 
   render() {
+    console.log(this.state.listMatchSample)
     const isAuthenticated = this.state.isAuthenticated
     const isClicked = this.state.isClicked
     const chromosome = this.state.chromosome;
@@ -191,6 +200,12 @@ class PageSearchByManual extends React.Component {
         <br />
         <Form
           className="ant-advanced-search-form"
+          style={{
+            padding: '24px',
+            background: '#fbfbfb',
+            border: '1px solid #d9d9d9',
+            borderRadius: '6px',
+          }}
           onSubmit={this.handleSearch}
         >
           <Row gutter={24}>{getFields}</Row>

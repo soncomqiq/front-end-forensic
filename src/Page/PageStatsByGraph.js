@@ -32,6 +32,7 @@ export default class PageStatsByGraph extends React.Component {
   }
 
   componentWillMount() {
+    localStorage.setItem('currentMenu', 'graph')
     let tmp = { target: { value: this.state.locus } }
     this.handleChartData(tmp);
     Axios.get(API_BASE_URL + "/resources/getlocuslist").then(Response => {
@@ -96,7 +97,7 @@ export default class PageStatsByGraph extends React.Component {
           <br /><br />
           {locusList}
         </Col>
-        <Col span={8} push={3}>
+        <Col span={12} push={3}>
           <LocusStatisticInfo
             locus={this.state.locus}
             alleleCount={this.state.alleleCount}

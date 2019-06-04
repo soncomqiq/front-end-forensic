@@ -65,7 +65,10 @@ class PageListPersons extends React.Component {
     }
 
     componentWillMount() {
+        this.props.setIsLoading(true);
+        localStorage.setItem('currentMenu','listperson')
         this.renderListPersons();
+        this.props.setIsLoading(false);
     }
 
     renderListPersons = () => {

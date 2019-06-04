@@ -17,7 +17,8 @@ export default class PageSearchByExcel extends React.Component {
     super(props)
     this.state = {
       totalSample: 0,
-      totalMatchSample: 0
+      totalMatchSample: 0,
+      isUploaded: false,
     }
   }
 
@@ -36,7 +37,8 @@ export default class PageSearchByExcel extends React.Component {
     Axios.post(props.action, data)
       .then((Response) => {
         this.setState({
-          totalMatchSample: Response.data.length
+          totalMatchSample: Response.data.length,
+          isUploaded: true,
         })
       })
       .catch((error) => console.log(error))
@@ -63,7 +65,7 @@ export default class PageSearchByExcel extends React.Component {
         <br />
         <br />
         <div>
-            <Statistic title="Matched Sample" value={this.state.totalMatchSample} suffix={"/ " + this.state.totalSample} />
+          {(this.state.isUploaded) ? <Statistic title="This data is" value={(this.state.totalMatchSample > 0 ? 'found' : 'not found') + ' in database'} /> : null}
         </div>
       </div>
     )

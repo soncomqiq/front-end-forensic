@@ -1,7 +1,7 @@
 import React from 'react'
 import { Input, Button, Form, Col, Row, Statistic, Progress } from 'antd';
 import Axios from 'axios';
-import { API_BASE_URL } from '../constants';
+import { API_BASE_URL, ACCESS_TOKEN } from '../constants';
 import { Typography } from 'antd';
 
 const { Text } = Typography;
@@ -28,10 +28,8 @@ class PageSearchByText extends React.Component {
         })
     }
 
-    handleExample = () => {
-        this.props.form.setFieldsValue({
-            search: 'D12S391:19,25\nTPOX:8\nD13S317:8'
-        })
+    handleReset = () => {
+        this.props.setExampleEmpty()
     }
 
     handleSubmit = async (e) => {
@@ -52,20 +50,32 @@ class PageSearchByText extends React.Component {
                     });
                     console.log(data);
                 });
-                console.log('data:', data);
-                Axios.post(API_BASE_URL + '/resources/findpersonbylocus', data).then((Response) => {
-                    console.log(Response.data)
-                    this.setState({
-                        totalMatchSample: Response.data.length,
-                        listMatchSample: Response.data,
-                        isClicked: true
-                    })
-                });
+                if (this.props.isAuthenticated) {
+                    const auth = { 'headers': { 'Authorization': 'Bearer ' + localStorage.getItem(ACCESS_TOKEN) } }
+                    Axios.post(API_BASE_URL + '/resources/findpersonbylocus', data, auth).then((Response) => {
+                        console.log(Response.data)
+                        this.setState({
+                            totalMatchSample: Response.data.length,
+                            listMatchSample: Response.data
+                        })
+                    });
+                } else {
+                    Axios.post(API_BASE_URL + '/resources/findNumberOfPersonByLocus', data).then((Response) => {
+                        console.log(Response.data)
+                        this.setState({
+                            totalMatchSample: Response.data,
+                        })
+                    });
+                }
             }
         });
+        this.setState({
+            isClicked: true
+        })
     }
 
     render() {
+        console.log(this.props.example)
         const isAuthenticated = this.props.isAuthenticated
         const isClicked = this.state.isClicked
         const { getFieldDecorator } = this.props.form;
@@ -75,6 +85,7 @@ class PageSearchByText extends React.Component {
                     <Form onSubmit={this.handleSubmit}>
                         <Form.Item>
                             {getFieldDecorator('search', {
+                                initialValue: this.props.example,
                                 rules: [
                                     {
                                         required: true,
@@ -88,8 +99,7 @@ class PageSearchByText extends React.Component {
                                 <Button type="primary" htmlType="submit">
                                     Search
                                 </Button>
-                                {' '}
-                                <Button type="dashed" onClick={this.handleExample}>Example</Button>
+                                <Button style={{ marginLeft: 8 }} onClick={this.handleReset}>Clear</Button>
                             </Col>
                         </Form.Item>
                     </Form>

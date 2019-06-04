@@ -4,7 +4,7 @@ import { Route, withRouter } from 'react-router-dom';
 import GuestNavbar from './NavBar/GuestBar';
 import PageUploadFileExcel from './Page/PageUploadFileExcel';
 import PageStatsByGraph from './Page/PageStatsByGraph';
-import { Layout, Menu, Breadcrumb } from 'antd';
+import { Layout } from 'antd';
 import AdminNavbar from './NavBar/AdminBar';
 import Login from './user/login/Login'
 import SignUp from './user/signup/Signup'
@@ -16,7 +16,6 @@ import { ACCESS_TOKEN } from './constants';
 import { notification } from 'antd';
 import PageiSNPStat from './Page/PageiSNPStats';
 import { Typography } from 'antd';
-import LogoUpload from './images/LogoUpload.png'
 import PageAdminSequence from './Page/PageSequenceAlignment';
 import StaticByMapPage from './Page/PageStatsByMap';
 import PageListPersons from './Page/PageListPersons';
@@ -25,19 +24,10 @@ import LoadingIndicator from './common/LoadingIndicator'
 import PageUploadPersons from './Page/PageUploadPersons';
 import PageUploadCEData from './Page/PageUploadCEData';
 import PageViewSingleID from './Page/PageViewSingleID';
+import PageWelcome from './Page/PageWelcome';
 
 const { Title, Text } = Typography;
-const { Header, Content, Footer } = Layout;
-const Home = props => (
-  <div>
-    <Title level={2}>Welcome to FGxBIO</Title>
-    <br />
-    <img src={LogoUpload} />
-    <br />
-    <br />
-    <Title level={2}><Text>The Database for Short Tandem Repeat (STR) Sequence</Text></Title>
-  </div>
-)
+const { Content, Footer } = Layout;
 
 class App extends Component {
   constructor(props) {
@@ -46,7 +36,7 @@ class App extends Component {
       currentUser: null,
       isAuthenticated: false,
       isLoading: false,
-      current: 'home'
+      current: localStorage.getItem('currentMenu')
     }
     this.handleLogout = this.handleLogout.bind(this);
     this.loadCurrentUser = this.loadCurrentUser.bind(this);
@@ -70,7 +60,7 @@ class App extends Component {
           isAuthenticated: true,
           isLoading: false
         });
-      }).catch(error => {
+      }).catch(() => {
         this.setState({
           isLoading: false
         });
@@ -79,6 +69,12 @@ class App extends Component {
 
   componentDidMount() {
     this.loadCurrentUser();
+  }
+
+  setIsLoading = (bool) => {
+    this.setState({
+      isLoading: bool
+    })
   }
 
   handleLogout(redirectTo = "/", notificationType = "success", description = "You're successfully logged out.") {
@@ -114,34 +110,34 @@ class App extends Component {
     const isAuthenticated = this.state.isAuthenticated;
     // this.loadCurrentUser();
     return (
-      <Layout className="layout">
-        <div className="my-app">
+      <Layout className="layout" style={{ height: '100%', position: 'relative' }}>
+        <div className="my-app" style={{ height: '100%' }}>
           {
             this.state.isAuthenticated ?
-              <AdminNavbar onLogout={this.handleLogout} /> :
+              <AdminNavbar isLoading={this.state.isLoading} onLogout={this.handleLogout} /> :
               <GuestNavbar handleLogin={this.handleLogin} />
           }
-          <Content style={{ padding: '0 0px' }}>
-            <div style={{ background: '#e2e2e2', padding: 24, minHeight: 522 }}>
+          <Content style={{ padding: '0 0px', height: 'auto' }}>
+            <div style={{ background: '#e2e2e2', padding: 24, height: '100%' }}>
               <div className="App container">
-                <Route exact path="/" component={Home} />
+                <Route exact path="/" render={(props) => <PageWelcome {...props} />} />
                 <Route exact path="/Login" render={(props) => <Login onLogin={this.handleLogin} {...props} />} />
                 <Route exact path="/search" render={(props) => <PageSearch isAuthenticated={this.state.isAuthenticated} {...props} />} />
                 <Route exact path="/stats/graph" component={PageStatsByGraph} />
                 <Route exact path="/stats/map" component={StaticByMapPage} />
                 <Route exact path="/signup" component={SignUp} />
                 <Route exact path="/analysis/kinship" component={Body} />
-                {isAuthenticated ? <Route exact path="/adddata" component={PageUploadFileExcel} /> : null}
-                {isAuthenticated ? <Route exact path="/isnpstat" component={PageiSNPStat} /> : null}
-                {isAuthenticated ? <Route exact path="/seqalign" component={PageAdminSequence} /> : null}
-                {isAuthenticated ? <Route exact path="/listpersons" component={PageListPersons} /> : null}
-                {isAuthenticated ? <Route exact path="/uploadpersons" component={PageUploadPersons} /> : null}
-                {isAuthenticated ? <Route exact path="/uploadcedata" component={PageUploadCEData} /> : null}
-                {isAuthenticated ? <Route exact path="/user/view/:yid/:id" component={PageViewSingleID} /> : null}
+                {isAuthenticated ? <Route exact path="/adddata" render={(props) => <PageUploadFileExcel setIsLoading={this.setIsLoading} {...props} />} /> : null}
+                {isAuthenticated ? <Route exact path="/isnpstat" render={(props) => <PageiSNPStat setIsLoading={this.setIsLoading} {...props} />} /> : null}
+                {isAuthenticated ? <Route exact path="/seqalign" render={(props) => <PageAdminSequence setIsLoading={this.setIsLoading} {...props} />} /> : null}
+                {isAuthenticated ? <Route exact path="/listpersons" render={(props) => <PageListPersons setIsLoading={this.setIsLoading} {...props} />} /> : null}
+                {isAuthenticated ? <Route exact path="/uploadpersons" render={(props) => <PageUploadPersons setIsLoading={this.setIsLoading} {...props} />} /> : null}
+                {isAuthenticated ? <Route exact path="/uploadcedata" render={(props) => <PageUploadCEData setIsLoading={this.setIsLoading} {...props} />} /> : null}
+                {isAuthenticated ? <Route exact path="/user/view/:yid/:id" render={(props) => <PageViewSingleID setIsLoading={this.setIsLoading} {...props} />} /> : null}
               </div>
             </div>
           </Content>
-          <Footer style={{ textAlign: 'center', backgroundColor: '#FFFFFF' }}><Text style={{ color: 'black' }}>&copy; 2019 Chulalongkorn University All Rights Reserved</Text></Footer>
+          <Footer style={{ textAlign: 'center', backgroundColor: '#FFFFFF' }}><Text style={{ color: 'black', padding: 'auto' }}>&copy; 2019 CUCPBioinfo Lab, Department of Computer Engineering, Faculty of Engineering, Chulalongkorn University All Rights Reserved</Text></Footer>
         </div>
       </Layout>
     )

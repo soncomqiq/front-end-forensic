@@ -16,9 +16,9 @@ function maskedAllele(sequence, seqAlign) {
     let pattern = []
     AlphaColor = {}
     AlphaColorSwitch = {}
-    console.log(AlphaColor)
-    console.log(AlphaColorSwitch)
-    alleles.map(allele => {
+    // console.log(AlphaColor)
+    // console.log(AlphaColorSwitch)
+    alleles.forEach(allele => {
       if (/\d/.test(allele)) {
         let tmp = allele.split(')');
         let tmp1 = tmp[0].split('(');
@@ -32,12 +32,12 @@ function maskedAllele(sequence, seqAlign) {
         pattern.push(tmp2)
       }
     })
-    console.log(pattern)
+    // console.log(pattern)
     let k = 0;
     let final = []
     for (var i = 0; i < pattern.length; i++) {
       for (var j = 0; j < pattern[i].number; j++) {
-        if (AlphaColor[pattern[i].pattern] == null) {
+        if (typeof AlphaColor[pattern[i].pattern] === "undefined") {
           AlphaColor[pattern[i].pattern] = colours[k++];
           AlphaColorSwitch[pattern[i].pattern] = colours[k++];
         }

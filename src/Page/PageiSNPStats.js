@@ -12,6 +12,12 @@ export default class PageiSNPStat extends Component {
         }
     }
 
+    componentWillMount(){
+        this.props.setIsLoading(true);
+        localStorage.setItem('currentMenu','isnp')
+        this.props.setIsLoading(false);
+    }
+
     componentDidMount() {
         const auth = { 'headers': { 'Authorization': 'Bearer ' + localStorage.getItem(ACCESS_TOKEN) } }
         axios.get(API_BASE_URL + "/resources/isnpstat", auth).then(

@@ -66,7 +66,7 @@ export default class LocusStatisticInfo extends Component {
             <strong>Summary</strong>
           </p>
           {this.state.heteroSummary.map(sample => {
-            if (sample.locus === this.state.locus)
+            if (sample.locus === this.state.locus) {
               return (
                 <div key={sample.locus}>
                   <br />
@@ -99,10 +99,10 @@ export default class LocusStatisticInfo extends Component {
                           label: 'Amount',
                           data: [
                             parseFloat(sample.hetero) /
-                              parseFloat(sample.total),
+                            parseFloat(sample.total),
                             1 -
-                              parseFloat(sample.hetero) /
-                                parseFloat(sample.total)
+                            parseFloat(sample.hetero) /
+                            parseFloat(sample.total)
                           ],
                           backgroundColor: ['#fa541c', '#a0d911']
                         }
@@ -111,6 +111,9 @@ export default class LocusStatisticInfo extends Component {
                   />
                 </div>
               )
+            } else {
+              return null;
+            }
           })}
         </div>
       </div>

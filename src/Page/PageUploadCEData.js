@@ -4,11 +4,11 @@ import { ACCESS_TOKEN, API_BASE_URL } from '../constants';
 import Axios from 'axios';
 
 class PageUploadCEData extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
 
-        }
+    componentWillMount(){
+        this.props.setIsLoading(true);
+        localStorage.setItem('currentMenu','cedata')
+        this.props.setIsLoading(false);
     }
 
     render() {

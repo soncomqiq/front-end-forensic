@@ -4,11 +4,10 @@ import { ACCESS_TOKEN, API_BASE_URL } from '../constants';
 import Axios from 'axios';
 
 class PageUploadPersons extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-
-        }
+    componentWillMount() {
+        this.props.setIsLoading(true);
+        localStorage.setItem('currentMenu','addperson')
+        this.props.setIsLoading(false);
     }
 
     render() {
@@ -107,7 +106,7 @@ class PageUploadPersons extends React.Component {
                 <br />
                 <h3>File Format</h3>
                 <p>A file contains a several line. one line is one person info. one line consists of 11 columns.</p>
-                <Table dataSource={dataSource} columns={columns} pagination={false}/>
+                <Table dataSource={dataSource} columns={columns} pagination={false} />
                 &nbsp;
             </div>
         )
