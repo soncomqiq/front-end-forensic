@@ -111,7 +111,7 @@ class PageListPersons extends React.Component {
 
     ModalAdd = (record) => {
         const modal = Modal.info({
-            title: 'Edit Form',
+            title: 'Add Form',
             content: (
                 <div>
                     <WrappedEditForm renderListPersons={this.renderListPersons} submitBtn={"Add"}

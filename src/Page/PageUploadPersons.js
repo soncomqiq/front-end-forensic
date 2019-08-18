@@ -1,12 +1,13 @@
 import React from 'react'
-import { Button, Upload, message, Table } from 'antd';
+import { Button, Upload, message, Table, Icon } from 'antd';
 import { ACCESS_TOKEN, API_BASE_URL } from '../constants';
 import Axios from 'axios';
+import Dragger from 'antd/lib/upload/Dragger';
 
 class PageUploadPersons extends React.Component {
     componentWillMount() {
         this.props.setIsLoading(true);
-        localStorage.setItem('currentMenu','addperson')
+        localStorage.setItem('currentMenu', 'addperson')
         this.props.setIsLoading(false);
     }
 
@@ -99,10 +100,13 @@ class PageUploadPersons extends React.Component {
         },];
         return (
             <div>
-                <Upload {...props1}>
-                    <Button type="primary" shape="round" icon="upload" >Add by xlsx file</Button>
-                </Upload>
-                <br />
+                <Dragger {...props1}>
+                    <p className="ant-upload-drag-icon">
+                        <Icon type="inbox" />
+                    </p>
+                    <p className="ant-upload-text">Click or drag file to this area to upload</p>
+                    <p className="ant-upload-hint">Support for a single or bulk upload. Strictly prohibit from uploading company data or other band files</p>
+                </Dragger>
                 <br />
                 <h3>File Format</h3>
                 <p>A file contains a several line. one line is one person info. one line consists of 11 columns.</p>

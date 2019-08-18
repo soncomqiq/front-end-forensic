@@ -53,6 +53,7 @@ export default class PageSearchByExcel extends React.Component {
   }
 
   render() {
+    // console.log(this.state.totalMatchSample)
     return (
       <div>
         <Dragger {...props} onChange={this.onChange}>

@@ -1,7 +1,8 @@
 import React from 'react'
-import { Button, Upload, message } from 'antd';
+import { Button, Upload, message, Icon } from 'antd';
 import { ACCESS_TOKEN, API_BASE_URL } from '../constants';
 import Axios from 'axios';
+import Dragger from 'antd/lib/upload/Dragger';
 
 class PageUploadCEData extends React.Component {
 
@@ -42,11 +43,16 @@ class PageUploadCEData extends React.Component {
                 }
             },
         };
+        
         return (
             <div>
-                <Upload {...props1}>
-                    <Button type="primary" shape="round" icon="upload" >Add by txt file</Button>
-                </Upload>
+                <Dragger {...props1}>
+                    <p className="ant-upload-drag-icon">
+                        <Icon type="inbox" />
+                    </p>
+                    <p className="ant-upload-text">Click or drag file to this area to upload</p>
+                    <p className="ant-upload-hint">Support for a single or bulk upload. Strictly prohibit from uploading company data or other band files</p>
+                </Dragger>
                 <br />
                 <h1>File Format</h1>
                 <p>The first line is Sample ID</p>

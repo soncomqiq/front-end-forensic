@@ -117,7 +117,8 @@ class RegistrationForm extends React.Component {
                             {getFieldDecorator('PID', {
                                 initialValue: (this.props.data) ? this.props.data.pid : "",
                                 rules: [{ required: true, message: 'Please input your PID!' },
-                                { len: 13, message: 'PID Must be 13 digits!' }],
+                                { len: 13, message: 'PID must be 13 digits!' },
+                                ],
                             })(
                                 <Input />
                             )}
@@ -126,7 +127,7 @@ class RegistrationForm extends React.Component {
                             label={(
                                 <span>
                                     First Name&nbsp;
-                        </span>
+                                </span>
                             )}
                         >
                             {getFieldDecorator('name', {
@@ -140,7 +141,7 @@ class RegistrationForm extends React.Component {
                             label={(
                                 <span>
                                     Last Name&nbsp;
-                        </span>
+                                </span>
                             )}
                         >
                             {getFieldDecorator('lastName', {
@@ -151,7 +152,11 @@ class RegistrationForm extends React.Component {
                             )}
                         </Form.Item>
                         <Form.Item
-                            label="Gender"
+                            label={(
+                                <span>
+                                    Gender&nbsp;
+                        </span>
+                            )}
                         >
                             {getFieldDecorator('gender', {
                                 initialValue: (this.props.data) ? this.props.data.gender : "",
@@ -218,7 +223,8 @@ class RegistrationForm extends React.Component {
                         >
                             {getFieldDecorator('age', {
                                 initialValue: (this.props.data) ? this.props.data.age : "",
-                                rules: [{ required: true, message: 'Please input an age!' }],
+                                rules: [{ required: true, message: 'Please input an age!' },
+                                { pattern: /^-?(0|[1-9][0-9]*)(\.[0-9]*)?$/, message: "age must be number." }],
                             })(
                                 <Input />
                             )}

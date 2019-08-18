@@ -82,7 +82,7 @@ class PageSearchByManual extends React.Component {
     for (let i = 0; i < locusList.length; i++) {
       children.push(
         <Col span={2} key={locusList[i]} style={{ display: 'block' }}>
-          <Form.Item label={`${locusList[i]}`}>
+          <Form.Item label={`${locusList[i]}`} colon={false}>
             {getFieldDecorator(`${locusList[i]}`, {
               rules: [{
                 required: false,
@@ -121,7 +121,7 @@ class PageSearchByManual extends React.Component {
           )
         }
       }
-      if(this.props.isAuthenticated){
+      if (this.props.isAuthenticated) {
         const auth = { 'headers': { 'Authorization': 'Bearer ' + localStorage.getItem(ACCESS_TOKEN) } }
         Axios.post(API_BASE_URL + '/resources/findpersonbylocus', data, auth).then((Response) => {
           console.log(Response.data)

@@ -21,7 +21,8 @@ export default class LocusStatisticInfo extends Component {
   }
 
   render() {
-    var observed_allele = this.state.alleleCount.map(sample => sample.allele)
+    console.log(this.state.alleleCount)
+    var observed_allele = this.state.alleleCount.map(sample => (sample.allele === "0.0") ? 'Invalid' : sample.allele)
     var allele_amount = this.state.alleleCount.map(sample => sample.amount)
     var chartData = {
       labels: observed_allele,
@@ -52,8 +53,16 @@ export default class LocusStatisticInfo extends Component {
         </p>
         <Bar
           data={chartData}
+
           options={{
-            maintainAspectRatio: true
+            maintainAspectRatio: true,
+            scales: {
+              yAxes: [{
+                ticks: {
+                  beginAtZero: true
+                }
+              }]
+            }
           }}
         />
         <br />
@@ -71,11 +80,10 @@ export default class LocusStatisticInfo extends Component {
                 <div key={sample.locus}>
                   <br />
                   <p>
-                    <strong>Locus : </strong>
-                    {sample.locus} <strong>Total Haplotype : </strong>
-                    {sample.total} <strong>Hetero Haplotype : </strong>
-                    {sample.hetero} <strong>Homo Haplotype : </strong>
-                    {sample.total - sample.hetero}
+                    <strong>Locus : </strong> {sample.locus} <br />
+                    <strong>Total Haplotype : </strong>{sample.total} <br />
+                    <strong>Hetero Haplotype : </strong>{sample.hetero} <br />
+                    <strong>Homo Haplotype : </strong>{sample.total - sample.hetero}
                   </p>
                   <br />
                   <p>

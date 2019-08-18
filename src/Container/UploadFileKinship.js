@@ -69,7 +69,10 @@ class FileUploadKinship extends React.Component {
         }, {
             title: 'PI',
             dataIndex: 'PI',
-            align: 'center'
+            align: 'center',
+            render: (text, record) => (
+                parseFloat(record.PI, 10).toFixed(4)
+            ),
         },];
         return (
             <div className="Box">
@@ -109,8 +112,8 @@ class FileUploadKinship extends React.Component {
                         <br />
                         <Table columns={columns} dataSource={piList} />
                         <br />
-                        Prior Prob. :&nbsp;<strong>{dataKinship.priorProb}</strong>&nbsp;&nbsp;&nbsp;
-                        Post. Prob. :&nbsp;<strong>{dataKinship.postProb}</strong>
+                        Prior Prob. :&nbsp;<strong>{parseFloat(dataKinship.priorProb, 10).toFixed(4)}</strong>&nbsp;&nbsp;&nbsp;
+                        Post. Prob. :&nbsp;<strong>{parseFloat(dataKinship.postProb, 10).toFixed(4)}</strong>
                         <br />
                         <br />
                         {dataKinship.report}
