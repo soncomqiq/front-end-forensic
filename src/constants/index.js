@@ -1,4 +1,4 @@
-export const API_BASE_URL = (process.env.NODE_ENV !== 'production') ? 'http://ec2-52-74-3-82.ap-southeast-1.compute.amazonaws.com:3002/api' : 'http://localhost:8080/api';
+export const API_BASE_URL = 'http://ec2-52-74-3-82.ap-southeast-1.compute.amazonaws.com:3002/api';
 export const ACCESS_TOKEN = 'accessToken';
 
 export const NAME_MIN_LENGTH = 4;
